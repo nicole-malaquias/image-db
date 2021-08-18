@@ -1,36 +1,34 @@
 import os
+import zipfile
+import dotenv 
+from dotenv import load_dotenv
 
+
+FILES_DIRECTORY = os.getenv('FILES_DIRECTORY')
 
 ALLOWED_EXTENSIONS = { 'png', 'jpg', 'gif'}
 def allowed_file(filename):
+    
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
            
 
 def how_many_pic(path,name):
+
     arr = list(path[2])
     return name in arr
-
-
-def load_environment_variable():
-    path = "/home/nicole/Área de Trabalho/Kenzie/Q3/sprint-2/entrega6"
-    exist = os.path.isfile('.env')
-    if exist == False :
-        arquivo = open(".env", "a")
-        arquivo.write(f'FILES_DIRECTORY="{path}"')
-        arquivo.write(f'\nFLASK_ENV=development')
-        arquivo.close()
-    return ''
         
 
-def load_all_archive(path) :
+def load_all_archive(path):
+    
     temp = list(os.walk(path))
     arr = temp[0][-1]
-    arr.pop()
+    response = [ i for i in arr if i[-2:] != '.py']
     
-    return arr
+    return response
 
 def load_to_type(path,tipo):
+    
     temp = list(os.walk(path))
     arr= temp[0][-1]
     arr_new = [i for i in arr if i[-3:] == tipo]
@@ -38,16 +36,41 @@ def load_to_type(path,tipo):
 
 
 
-
-
-
-
-
-# def find_directory(filename):
+def find_arch(name):
+   
+    path = "/home/nicole/Área de Trabalho/Kenzie/Q3/sprint-2/entrega6/image"
+    temp = list(os.walk(path))
+    arr = temp[0][-1]
+    file = [i for i in arr if name in i ]
+    return file 
     
-#     if os.path.isdir(filename):
-#         print("O diretório existe!")
-#     else:
-#         os.mkdir(PATH+"/requeriment")
-        
-        
+
+
+def compact_zip(kind, nivel):
+    
+    path = FILES_DIRECTORY+'image/'
+    cont = 0 
+    arquivo_zip = zipfile.ZipFile(path+'/archive.zip', 'w')
+    
+    for folder, _ ,files in os.walk( "/home/nicole/Área de Trabalho/Kenzie/Q3/sprint-2/entrega6/image"):
+
+        for file in files:
+            if file.endswith(kind):
+                arquivo_zip.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file),"/home/nicole/Área de Trabalho/Kenzie/Q3/sprint-2/entrega6/image"), compress_type = zipfile.ZIP_DEFLATED,compresslevel=nivel)
+                cont = cont + 1 
+    arquivo_zip.close()
+    if cont == 0:
+        return 0 
+    return arquivo_zip
+    
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
