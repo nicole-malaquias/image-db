@@ -52,11 +52,11 @@ def compact_zip(kind, nivel):
     cont = 0 
     arquivo_zip = zipfile.ZipFile(path+'/archive.zip', 'w')
     
-    for folder, _ ,files in os.walk( "/home/nicole/Área de Trabalho/Kenzie/Q3/sprint-2/entrega6/image"):
+    for folder, _ ,files in os.walk( path):
 
         for file in files:
             if file.endswith(kind):
-                arquivo_zip.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file),"/home/nicole/Área de Trabalho/Kenzie/Q3/sprint-2/entrega6/image"), compress_type = zipfile.ZIP_DEFLATED,compresslevel=nivel)
+                arquivo_zip.write(os.path.join(folder, file), os.path.relpath(os.path.join(folder,file),path), compress_type = zipfile.ZIP_DEFLATED,compresslevel=nivel)
                 cont = cont + 1 
     arquivo_zip.close()
     if cont == 0:
