@@ -10,10 +10,9 @@ ALLOWED_EXTENSIONS = { 'png', 'jpg', 'gif'}
 
 
 def create_image_foud() :
-    try:
-        os.mkdir("image")   
-    except:
-        return ''
+    if not os.path.exists("./image") :
+        os.makedirs("./image")
+
 
 
 def allowed_file(filename):
