@@ -13,10 +13,11 @@ FILES_DIRECTORY = os.getenv('FILES_DIRECTORY')
 
 @app.route('/upload',methods=["POST"])
 def post_uploade():
-    
+   
     archive = request.files["file"]
     is_allowed = image.allowed_file(str(archive.filename))
     path = os.walk(FILES_DIRECTORY) 
+    print(path)
     has_pic = image.how_many_pic(path,archive.filename)   
     
     if has_pic:
